@@ -13,6 +13,7 @@ class Course(models.Model):
     description = models.TextField(verbose_name=_('Course Description'))
     teacher = models.ForeignKey(CustomUser, related_name='courses', on_delete=models.CASCADE, verbose_name=_('Teacher'))
     image = models.ImageField(upload_to='coursesImages', null=True, blank=True)
+    course_type = models.CharField(max_length=64, verbose_name=_('Course type'), null=True, blank=True)
 
     objects = DefaultManager
 
