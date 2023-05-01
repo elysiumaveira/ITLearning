@@ -19,6 +19,16 @@ class CourseSerializer(ModelSerializer):
     def create(self, validated_data):
         return Course.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.image = validated_data.get('image', instance.image)
+        instance.teacher = validated_data.get('teacher', instance.teacher)
+        instance.course_type = validated_data.get('course_type', instance.course_type)
+
+        instance.save()
+        return instance
+
 
 class LectureSerializer(ModelSerializer):
     class Meta:
