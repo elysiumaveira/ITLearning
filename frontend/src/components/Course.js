@@ -1,26 +1,28 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import '../css/CourseDetailButtons.css'
+import s from '../css/CourseButtons.module.css'
+import classNames from 'classnames';
 
-const CourseItem = ({courseType}) => {
+const CourseItem = ({ courseType }) => {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/course', { params: { course_type: courseType } })
+        axios.get(`${process.env.REACT_APP_API_URL}/course/`, { params: { course_type: courseType } })
         .then(result => {
-            console.log(result)
             const course = result.data;
             setCourses(result.data);
         })
     }, [])
 
-    return <div className='course-buttons-container'>
-        {courses.map(course => 
-                <NavLink to="/coursedetail" className="box">{course.name}</NavLink>
-        )}
-    </div>
+    return (
+        <>
+            {courses.map((course) =>
+                <Link to={`/coursedetail/${ course.id }`} className={ s.box } key={ course.id }>{ course.name }</Link>
+            )}
+        </>
+    )
 }
 
 export default CourseItem;
