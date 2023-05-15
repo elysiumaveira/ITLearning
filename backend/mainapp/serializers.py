@@ -1,8 +1,6 @@
-from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, Serializer, CharField
-from mainapp.models import *
+from rest_framework.serializers import ModelSerializer
 
-from authapp.serializers import CustomUserSerializer
+from mainapp.models import Group, Course, Lecture, Test
 
 
 class GroupSerializer(ModelSerializer):
@@ -25,6 +23,9 @@ class CourseSerializer(ModelSerializer):
         instance.image = validated_data.get('image', instance.image)
         instance.teacher = validated_data.get('teacher', instance.teacher)
         instance.course_type = validated_data.get('course_type', instance.course_type)
+        instance.period = validated_data.get('period', instance.period)
+        instance.price = validated_data.get('price', instance.price)
+        instance.goal = validated_data.get('goal', instance.goal)
 
         instance.save()
         return instance
