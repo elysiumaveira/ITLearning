@@ -1,13 +1,77 @@
+@font-face {
+  font-family: Montserrat, sans-serif;
+  src: url(../fonts/Montserrat-Italic-VariableFont_wght.ttf);
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Montserrat', sans-serif;
+}
+
+p {
+  font-size: 17px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a::after {
+  color: black;
+}
+
+select {
+  border: 0;
+  height: 4%;
+}
+
+.MuiAccordionSummary-root {
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.MuiAccordionSummary-root::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: linear-gradient(to right, #F7941D 0%, #27AAE1 100%);
+  border-radius: 6px;
+  filter: blur(20px);
+  z-index: -1;
+}
+
+.MuiAccordionDetails-root {
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.MuiAccordionDetails-root::brefore {
+  content: "";
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: linear-gradient(to right, #F7941D 0%, #27AAE1 100%);
+  border-radius: 6px;
+  filter: blur(20px);
+  z-index: -1;
 }
