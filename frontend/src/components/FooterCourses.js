@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
 
 import '../css/FooterCourses.css'
 
@@ -17,8 +16,8 @@ const FooterCourses = ({courseType}) => {
     }, [])
 
     return <div className='course-container'>
-        {courses.map(course => 
-                <p  className="course">{course.name}</p>
+        {courses.map((course) => 
+            <p  className="course" key={ course.id }>{course.name}</p>
         )}
     </div>
 }
