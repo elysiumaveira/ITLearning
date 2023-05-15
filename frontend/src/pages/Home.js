@@ -1,6 +1,6 @@
 import '../css/Home.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
@@ -26,6 +26,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Home = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    })
+
 return (
     <>
     <div className="banner-container">
