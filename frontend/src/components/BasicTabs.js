@@ -58,7 +58,7 @@ function BasicTabs() {
                     value={value} 
                     onChange={handleChange} 
                     TabIndicatorProps={{ 
-                        sx: { background:"linear-gradient(-45deg, #27AAE1 0%, #F7941D 100% )", height:3 }
+                        sx: { background:"linear-gradient(to right, #F7941D 0%, #27AAE1 100%)", height:3 }
                     }}
                     sx={{"& button": { marginRight: 20, marginTop: 10 }}}
                 >
@@ -80,4 +80,4 @@ function BasicTabs() {
     );
 }
 
-export default BasicTabs
+export default BasicTabs;
