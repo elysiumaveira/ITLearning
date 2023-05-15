@@ -1,0 +1,58 @@
+.footer {
+    background-color: #00093C;
+    height: 560px;
+}
+
+.container {
+    display: flex;
+}
+
+.infoBlock {
+    margin-left: 280px;
+    margin-top: 135px;
+    padding: 0;
+}
+
+.infoBlockNumber {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-top: 42px;
+}
+
+.infoBlockText {
+    font-size: 14px;
+    color: white;
+    margin-top: 25px;
+}
+
+.social {
+    margin-top: 42px;
+}
+
+.brand {
+    font-size: 12px;
+    color: gray;
+    margin-top: 42px;
+}
+
+.block {
+    margin-top: 30px;
+    margin-left: 100px;
+}
+
+.blockTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
+.course {
+    margin-top: 35px;
+}
+
+.text {
+    font-size: 14px;
+    margin-top: 20px;
+    color: white;
+}
