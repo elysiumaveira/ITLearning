@@ -2,12 +2,9 @@ from django.http import Http404
 
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, renderer_classes, action
-from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from authapp.models import CustomUser
 from mainapp.serializers import GroupSerializer, CourseSerializer, LectureSerializer, TestSerializer
 from mainapp.models import Group, Course, Lecture, Test
 
@@ -74,6 +71,18 @@ class CourseDetailView(APIView):
         serializer = CourseSerializer(instance=queryset, many=True)
 
         return Response(serializer.data)
+
+    def put(self, request, id):
+        saved_course = get_object_or_404(Course.objects.all(), id=id)
+        data = request.data
+        serializer = CourseSerializer(instance=saved_course, data=data, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            course_saved = serializer.save()
+
+        return Response({
+            "success": "Course '{}' updated successfully".format(course_saved.id)
+        })
 
 
 class LectureViewSet(ModelViewSet):
