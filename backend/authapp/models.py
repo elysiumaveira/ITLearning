@@ -5,14 +5,18 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, username, email, first_name, password=None):
+    def create_user(self, username, email, first_name, last_name, password=None):
         if not username:
             raise ValueError('Users must have an username')
         if not email:
-            raise ValueError('Users must have an email addres')
+            raise ValueError('Users must have an email address')
+        if not last_name:
+            raise ValueError('Users must have an last name')
+        if not first_name:
+            raise ValueError('Users must have an first name')
 
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, first_name=first_name)
+        user = self.model(username=username, email=email, first_name=first_name, last_name=last_name)
 
         user.set_password(password)
         user.save()
@@ -37,7 +41,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'first_name']
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
