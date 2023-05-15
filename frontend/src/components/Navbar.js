@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../store/actions/auth';
 import { connect, useSelector } from 'react-redux';
 
-import BackgroundLetterAvatars from './LetterAvatars.js';
+import Avatar from './Avatar.js';
 
 import logo from '../images/logo.svg'
 import allCourses from '../images/allCourses.svg'
@@ -34,7 +34,7 @@ const Navbar = ( { logout, isAuthenticated }) => {
     const authLinks = () => (
         <NavLink to="#!" onClick={ logout }>
             <div className={ s.wrapper }>
-                { BackgroundLetterAvatars(`${ user?.first_name }`) }
+                { Avatar(`${ user?.first_name } ${ user?.last_name }`) }
             </div>
         </NavLink>
     );
