@@ -1,0 +1,17 @@
+.tabs {
+    margin-left: 35%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.owl {
+    position: absolute;
+    top: 32%;
+    left: 17%;
+}
+
+.owlText {
+    position: absolute;
+    top: 34%;
+    left: 21%;
+}
