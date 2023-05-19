@@ -5,3 +5,5 @@ from rest_framework.views import APIView
 
 from authapp.serializers import UserCreateSerializer
 from authapp.models import UserAccount
+
+
