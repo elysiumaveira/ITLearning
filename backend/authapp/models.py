@@ -1,7 +1,11 @@
+import jwt
 from django.db import models
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+
+from datetime import datetime, timedelta
+from decouple import config
 
 
 class UserAccountManager(BaseUserManager):
@@ -19,6 +23,17 @@ class UserAccountManager(BaseUserManager):
         user = self.model(username=username, email=email, first_name=first_name, last_name=last_name)
 
         user.set_password(password)
+        user.save()
+
+        return user
+
+    def create_superuser(self, username, email, first_name, last_name, password):
+        if password is None:
+            raise TypeError("Superusers must have a password.")
+
+        user = self.create_user(username, email, first_name, last_name, password)
+        user.is_superuser = True
+        user.is_staff = True
         user.save()
 
         return user
@@ -42,6 +57,20 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
+
+    @property
+    def token(self):
+        return self._generate_jwt_token()
+
+    def _generate_jwt_token(self):
+        dt = datetime.now() + timedelta(days=1)
+
+        token = jwt.encode({
+            'id': self.pk,
+            'exp': int(dt.strftime('%s'))
+        }, config.SECRET_KEY, algorithm='HS256')
+
+        return token.decode('utf-8')
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
