@@ -13,11 +13,13 @@ import {
     PASSWORD_RESET_FAIL,
     PASSWORD_RESET_CONFRIM_SUCCESS,
     PASSWORD_RESET_CONFRIM_FAIL,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAIL,
     LOGOUT,
 } from '../actions/types';
 
 const initialState = {
-    access: localStorage.getItem('acces'),
+    access: localStorage.getItem('access'),
     refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
     user: null
@@ -37,7 +39,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isAuthenticated: true,
-                acces: payload.acces,
+                access: payload.access,
                 refresh: payload.refresh
             }
         case SIGNUP_SUCCESS:
@@ -48,7 +50,7 @@ export default function(state = initialState, action) {
         case USER_LOADED_SUCCES:
             return {
                 ...state,
-                user: payload
+                user: payload,
             }
         case AUTHENTICATED_FAIL:
             return {
@@ -62,7 +64,6 @@ export default function(state = initialState, action) {
             }    
         case SIGNUP_FAIL:
         case LOGIN_FAIL:
-        case LOGOUT:
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             return{
@@ -70,6 +71,16 @@ export default function(state = initialState, action) {
                 access: null,
                 refresh: null,
                 isAuthenticated: false,
+                user: null
+            }
+        case LOGOUT:
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            return{
+                ...state,
+                access: null,
+                refresh: null,
+                isAuthenticated: null,
                 user: null
             }
         case PASSWORD_RESET_SUCCESS:
