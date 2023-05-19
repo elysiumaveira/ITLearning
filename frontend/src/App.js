@@ -16,6 +16,9 @@ import Activate from './pages/Activate';
 import ResetPassword from './pages/ResetPassword';
 import ConfirmationNotice from './pages/ConfirmationNotice';
 import ResetPasswordConfirm from './pages/ResetPasswordConfirm';
+import Profile from './pages/Profile';
+import ProfileSettings from './pages/ProfileSettings';
+
 import store from './store/store';
 
 const App = () => {
@@ -35,6 +38,8 @@ const App = () => {
           <Route path="/knowlege" element={<KnowlegeBases />} />
           <Route path="/career" element={<Career />} />
           <Route path="/coursedetail/:id" element={<CourseDetail />}/>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/settings" element={<ProfileSettings />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Route>
       </Routes>
