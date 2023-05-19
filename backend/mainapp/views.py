@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from mainapp.serializers import GroupSerializer, CourseSerializer, LectureSerializer, TestSerializer
-from mainapp.models import Group, Course, Lecture, Test
+from mainapp.serializers import GroupSerializer, CourseSerializer, MaterialsSerializer, ThemesSerializer, \
+    LessonSerializer
+
+from mainapp.models import Group, Course, MaterialsForLesson, Themes, Lesson
 
 
 class GroupView(APIView):
@@ -14,7 +16,7 @@ class GroupView(APIView):
     def get_extra_actions(cls):
         return []
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs1):
         queryset = Group.objects.all()
         serializer = GroupSerializer(queryset, many=True)
 
@@ -85,11 +87,59 @@ class CourseDetailView(APIView):
         })
 
 
-class LectureViewSet(ModelViewSet):
-    queryset = Lecture.objects.all()
-    serializer_class = LectureSerializer
+class MaterialsView(APIView):
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
+    def get(self, request, id=None):
+        if id:
+            materials = MaterialsForLesson.objects.get(id=id)
+            serializer = MaterialsSerializer(materials)
+
+            return Response(serializer.data)
+
+        materials = MaterialsForLesson.objects.all()
+        serializer = MaterialsSerializer(materials, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request):
+        materials = request.data
+
+        serializer = MaterialsSerializer(data=materials)
+        if serializer.is_valid(raise_exception=True):
+            course_saved = serializer.save()
+
+        return Response({"materials": "Material {} created successfully".format(course_saved.id)})
+
+    def put(self, request, id):
+        pass
+
+    def put(self, request, id):
+        saved_materials = get_object_or_404(MaterialsForLesson.objects.all(), id=id)
+        data = request.data
+        serializer = MaterialsSerializer(instance=saved_materials, data=data, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            materials_saved = serializer.save()
+
+        return Response({"success": "Material {} updated successfully".format(materials_saved.id)})
 
 
-class TestViewSet(ModelViewSet):
-    queryset = Test.objects.all()
-    serializer_class = TestSerializer
+class LessonView(APIView):
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
+    def get(self, request, id=None):
+        if id:
+            lesson = Lesson.objects.get(id=id)
+            serializer = LessonSerializer(lesson)
+
+            return Response(serializer.data)
+
+        lessons = Lesson.objects.all()
+        serializer = LessonSerializer(lessons, many=True)
+
+        return Response(serializer.data)
