@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { logout } from '../store/actions/auth';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
-import Avatar from './Avatar.js';
+import AccountMenu from './AccountMenu';
 
 import logo from '../images/logo.svg'
 import allCourses from '../images/allCourses.svg'
@@ -18,8 +18,6 @@ const style = ({ isActive }) => ({
 });
 
 const Navbar = ( { logout, isAuthenticated }) => {
-    const { user } = useSelector((store) => store.auth);
-
     const guestLinks = () => (
         <Fragment>
             <NavLink to="login">
@@ -32,11 +30,7 @@ const Navbar = ( { logout, isAuthenticated }) => {
     );
 
     const authLinks = () => (
-        <NavLink to="#!" onClick={ logout }>
-            <div className={ s.wrapper }>
-                { Avatar(`${ user?.first_name } ${ user?.last_name }`) }
-            </div>
-        </NavLink>
+        <AccountMenu />
     );
 
     return (
@@ -44,7 +38,7 @@ const Navbar = ( { logout, isAuthenticated }) => {
             <div className={ s.container }>
                 <nav className={ s.nav }>
                     <NavLink to="/home" style={ style }>
-                        <div className={ s.logo }>
+                        <div>
                             <img src={ logo } alt='logo'/>    
                         </div>
                     </NavLink>
@@ -86,4 +80,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { logout })(Navbar);
-// export default Navbar;

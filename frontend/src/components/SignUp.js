@@ -47,7 +47,7 @@ const SignUp = () => {
     }
 
     const onSubmit = () => {
-        if (password == re_password) {
+        if (password === re_password) {
             signup(username, email, first_name, last_name, password, re_password)(dispatch);
             setAccountCreated(true);
         }
@@ -67,7 +67,7 @@ const SignUp = () => {
         color: "white",
         backgroundColor: "#F7941D;",
         '&:hover': {
-            backgroundColor: "#F7941D",
+            backgroundColor: "#FFAE4D",
         },
         width: "200px",
         height: "50px",
