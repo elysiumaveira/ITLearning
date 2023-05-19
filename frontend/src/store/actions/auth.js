@@ -15,6 +15,8 @@ import {
     PASSWORD_RESET_FAIL,
     PASSWORD_RESET_CONFRIM_SUCCESS,
     PASSWORD_RESET_CONFRIM_FAIL,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAIL,
     LOGOUT,
 } from './types';
 
@@ -65,7 +67,7 @@ export const load_user = () => async dispatch => {
 
         try {
             const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config)
-    
+
             dispatch ({
                 type: USER_LOADED_SUCCES,
                 payload: res.data
@@ -161,8 +163,6 @@ export const reset_password = (email) => async dispatch => {
 
     const body = JSON.stringify({ email });
 
-    console.log('asdasdasd', email)
-
     try {
         await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
 
@@ -194,6 +194,28 @@ export const reset_password_confirm = (uid, token, new_password, re_new_password
     } catch (err) {
         dispatch({
             type: PASSWORD_RESET_CONFRIM_FAIL
+        });
+    }
+}
+
+export const profile_update = (formData) => async dispatch => {
+    const config = {
+        headers: {
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    }
+
+    const body = formData
+
+    try {
+        await axios.patch(`${process.env.REACT_APP_API_URL}/auth/users/me/`, body, config);
+
+        dispatch({
+            type : UPDATE_PROFILE_SUCCESS
+        });
+    } catch (err) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL
         });
     }
 }
