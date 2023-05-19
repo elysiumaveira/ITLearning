@@ -157,7 +157,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -170,7 +169,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
@@ -193,7 +192,8 @@ DJOSER = {
 
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
-        'user': 'authapp.serializers.UserCreateSerializer',
+        'user': 'authapp.serializers.UserSerializer',
+        'current_user': 'authapp.serializers.UserSerializer',
         'user_create': 'authapp.serializers.UserCreateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
