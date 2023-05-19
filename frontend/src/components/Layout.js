@@ -7,10 +7,16 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const Layout = (props) => {
+    const initialState = {
+        access: localStorage.getItem('access'),
+    };
+
     useEffect(() => {
-        props.checkAuthenticated();
-        props.load_user();
-    }, [])
+        if (initialState.access != null) {
+            props.checkAuthenticated();
+            props.load_user();
+        }
+    }, []);
 
 return (
     <>

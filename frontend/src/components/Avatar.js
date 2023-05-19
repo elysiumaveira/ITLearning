@@ -22,14 +22,27 @@ function stringAvatar(name) {
     return {
         sx: {
         bgcolor: stringToColor(name),
-        width: 34,
-        height: 34
+        width: 26,
+        height: 26
         },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        // children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        children: `${name.split(' ')[0][0]}`,
     };
 }
 
-export default function BackgroundLetterAvatars( name ) {
+export function ImageAvatar(image) {
+    return (
+        <Stack direction="row" spacing={2}>
+            <Avatar
+                alt="avatar"
+                src={ image }
+                sx={{ width: 32, height: 32 }}
+            />
+        </Stack>
+    )
+}
+
+export function LetterAvatar(name) {
     return (
         <Stack direction="row" spacing={2}>
             <Avatar {...stringAvatar(name)} />

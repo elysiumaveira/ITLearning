@@ -62,7 +62,6 @@ const Authentication = () => {
                         <Tabs 
                             value={value} 
                             onChange={handleChange} 
-                            aria-label="basic tabs example" 
                             TabIndicatorProps={{ 
                                 sx: { 
                                     background:"linear-gradient(to right, #F7941D 0%, #27AAE1 100%)", 

@@ -16,7 +16,7 @@ const Login = () => {
 
     const { isAuthenticated } = useSelector((store) => store.auth);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const onUsernameChange = (e) => {
         setUsername(e.target.value)
@@ -45,7 +45,7 @@ const Login = () => {
         color: "white",
         backgroundColor: "#F7941D;",
         '&:hover': {
-            backgroundColor: "#F7941D",
+            backgroundColor: "#FFAE4D",
         },
         width: "180px",
         height: "50px",
@@ -71,6 +71,7 @@ const Login = () => {
                         id="outlined-required"
                         label="Логин"
                         onChange={ onUsernameChange }
+                        error={ isAuthenticated === false}
                     />
                     <TextField
                         id="outlined-password-input"
@@ -78,12 +79,26 @@ const Login = () => {
                         type="password"
                         autoComplete="current-password"
                         onChange={ onPasswordChange }
+                        error={ isAuthenticated === false}
                     />
                 </div>
             </Box>
+            
+            { isAuthenticated === false ? (
+                <p className={ s.error }>
+                    Неверный логин или пароль
+                </p>
+            ) : (
+                <p className={ s.error } style={{ display: 'none' }}>
+                    Неверный логин или пароль
+                </p>
+                ) 
+            }
+
             <div>
                 <p className={s.resetPassword}>Забыли пароль? <Link to='/reset_password' className={s.link}>Восстановить пароль</Link></p>
             </div>
+            
             <div className={ s.button }>
                 <ColorButton variant="contained" onClick={ onSubmit }>Войти</ColorButton>
             </div>
