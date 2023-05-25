@@ -8,6 +8,11 @@ from datetime import datetime, timedelta
 from decouple import config
 
 
+class DefaultManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
+
 class UserAccountManager(BaseUserManager):
     def create_user(self, username, email, first_name, last_name, password=None):
         if not username:
@@ -39,6 +44,10 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
+class Roles(models.Model):
+    pass
+
+
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
@@ -49,8 +58,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(null=True, blank=True, verbose_name=_('Birth date'))
     avatar = models.ImageField(upload_to='usersAvatars', null=True, blank=True, verbose_name=_('Avatar'))
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 
@@ -80,3 +87,17 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class AccountRoles(models.Model):
+    name = models.CharField(max_length=64, verbose_name=_('Name of role'))
+    system_name = models.CharField(max_length=64, verbose_name=_('System name of role'))
+
+    objects = DefaultManager
+
+
+class UserRole(models.Model):
+    role = models.ForeignKey(AccountRoles, on_delete=models.CASCADE, related_name=('role'), verbose_name=_('Role'))
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name=('user'), verbose_name=_('User'))
+
+    objects = DefaultManager

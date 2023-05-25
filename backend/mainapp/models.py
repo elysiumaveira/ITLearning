@@ -50,3 +50,4 @@ class Lesson(models.Model):
     themes = models.ManyToManyField(MaterialsForLesson, related_name='themes_of_lesson', verbose_name=_('Themes of Lesson'))
 
     objects = DefaultManager
+
