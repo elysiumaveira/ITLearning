@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     
     'mainapp',
     'authapp',
+    'testsapp',
 ]
 
 MIDDLEWARE = [
