@@ -58,6 +58,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(null=True, blank=True, verbose_name=_('Birth date'))
     avatar = models.ImageField(upload_to='usersAvatars', null=True, blank=True, verbose_name=_('Avatar'))
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 
