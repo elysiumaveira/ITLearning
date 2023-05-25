@@ -20,7 +20,7 @@ class TestView(APIView):
             return Response(serializer.data)
 
         test = Test.objects.all()
-        serializer = TestSerializer(test)
+        serializer = TestSerializer(test, many=True)
 
         return Response(serializer.data)
 
@@ -54,7 +54,7 @@ class QuestionView(APIView):
     def get(self, request, id=None):
         if id:
             question = Question.objects.get(id=id)
-            serializer = QuestionSerializer(question)
+            serializer = QuestionSerializer(question, many=True)
 
             return Response(serializer.data)
 
@@ -84,44 +84,6 @@ class QuestionView(APIView):
             "success": "Question '{}' updated successfully".format(question_saved.id)
         })
 
-    class TestView(APIView):
-        @classmethod
-        def get_extra_actions(cls):
-            return []
-
-        def get(self, request, id=None):
-            if id:
-                course = Test.objects.get(id=id)
-                serializer = TestSerializer(course)
-
-                return Response(serializer.data)
-
-            test = Test.objects.all()
-            serializer = TestSerializer(test)
-
-            return Response(serializer.data)
-
-        def post(self, request):
-            test = request.data
-
-            serializer = TestSerializer(data=test)
-            if serializer.is_valid(raise_exception=True):
-                test_saved = serializer.save()
-
-            return Response({"tests": "Test {} created successfully".format(test_saved.id)})
-
-        def put(self, request, pk):
-            saved_test = get_object_or_404(Test.objects.all(), pk=pk)
-            data = request.data
-            serializer = TestSerializer(instance=saved_test, data=data, partial=True)
-
-            if serializer.is_valid(raise_exception=True):
-                test_saved = serializer.save()
-
-            return Response({
-                "success": "Course '{}' updated successfully".format(test_saved.id)
-            })
-
 
 class AnswerView(APIView):
     @classmethod
@@ -136,7 +98,7 @@ class AnswerView(APIView):
             return Response(serializer.data)
 
         answer = Answer.objects.all()
-        serializer = AnswerSerializer(answer)
+        serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
 
@@ -175,7 +137,7 @@ class UserTestView(APIView):
             return Response(serializer.data)
 
         user_test = UserTest.objects.all()
-        serializer = UserTestSerializer(user_test)
+        serializer = UserTestSerializer(user_test,  many=True)
 
         return Response(serializer.data)
 
@@ -214,7 +176,7 @@ class UsersAnswersView(APIView):
             return Response(serializer.data)
 
         users_answers = UsersAnswers.objects.all()
-        serializer = UsersAnswersSerializer(users_answers)
+        serializer = UsersAnswersSerializer(users_answers, many=True)
 
         return Response(serializer.data)
 
