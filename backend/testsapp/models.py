@@ -10,7 +10,7 @@ class DefaultManager(models.Manager):
 
 
 class Test(models.Model):
-    name = models.CharField(max_length=64, verbose_name=_('Test name'))
+    name = models.CharField(max_length=255, verbose_name=_('Test name'))
     description = models.CharField(max_length=255, verbose_name=_('Test description'))
 
     objects = DefaultManager
