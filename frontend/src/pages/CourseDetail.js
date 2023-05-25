@@ -30,7 +30,7 @@ const CourseDetail = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get(`${process.env.REACT_APP_API_URL}/course/${ id }`)
+        axios.get(`${process.env.REACT_APP_API_URL}/mainapp/course/${ id }/`)
         .then(result => {
             console.log(result)
             const course = result.data;
@@ -68,15 +68,15 @@ const CourseDetail = () => {
                 </div>
             </div>
             <div>
-                <img className={ s.bannerImage } src={ `http://localhost:8000${ course?.image }` }/>
-                <img src={ cross } className={ s.bannerCross }></img>
-                <img src={ rectangle } className={ s.bannerRectangleSmall }></img>
-                <img src={ circle } className={ s.bannerCircle }></img>
-                <img src={ line1 } className={ s.bannerLeftLine }></img>
-                <img src={ line3 } className={ s.bannerMiddleLine }></img>
-                <img src={ line2 } className={ s.bannerBottomLeftLine }></img>
-                <img src={ line4 } className={ s.bannerBottomRightLine }></img>
-                <img src={ rectangle } className={ s.bannerRectangleBig }></img>
+                <img className={ s.bannerImage } src={ `http://localhost:8000/${ course?.image }` }/>
+                <img src={ cross } className={ s.bannerCross } alt='cross'></img>
+                <img src={ rectangle } className={ s.bannerRectangleSmall } alt='rectangle'></img>
+                <img src={ circle } className={ s.bannerCircle } alt='circle'></img>
+                <img src={ line1 } className={ s.bannerLeftLine } alt='line'></img>
+                <img src={ line3 } className={ s.bannerMiddleLine } alt='line'></img>
+                <img src={ line2 } className={ s.bannerBottomLeftLine } alt='line'></img>
+                <img src={ line4 } className={ s.bannerBottomRightLine } alt='line'></img>
+                <img src={ rectangle } className={ s.bannerRectangleBig } alt='rectangle'></img>
             </div>
         </div>
 

@@ -9,7 +9,7 @@ const CourseItem = ({ courseType }) => {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/course/`, { params: { course_type: courseType } })
+        axios.get(`${process.env.REACT_APP_API_URL}/mainapp/course`, { params: { course_type: courseType } })
         .then(result => {
             const course = result.data;
             setCourses(result.data);
