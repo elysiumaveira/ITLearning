@@ -18,7 +18,7 @@ class Test(models.Model):
 
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name=('test_question'), verbose_name=_('Test question'))
-    question = models.CharField(max_length=64, verbose_name=_('Question'))
+    question = models.CharField(max_length=255, verbose_name=_('Question'))
 
     objects = DefaultManager
 
