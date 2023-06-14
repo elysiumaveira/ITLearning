@@ -16,11 +16,11 @@ const AgeCourseFiltering = ({ courseType }) => {
     }, [])
 
     return (
-        <>
+        <div className={ s.wrapper }>
             {courses.map((course) =>
                 <Link to={`/coursedetail/${ course.id }`} className={ s.box } key={ course.id }>{ course.name }</Link>
             )}
-        </>
+        </div>
     )
 }
 

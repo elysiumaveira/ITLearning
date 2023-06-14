@@ -44,10 +44,6 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
-class Roles(models.Model):
-    pass
-
-
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 

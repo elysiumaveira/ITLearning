@@ -88,6 +88,7 @@ const Login = () => {
                 <p className={ s.error }>
                     Неверный логин или пароль
                 </p>
+                
             ) : (
                 <p className={ s.error } style={{ display: 'none' }}>
                     Неверный логин или пароль

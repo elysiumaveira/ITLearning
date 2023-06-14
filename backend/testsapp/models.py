@@ -40,6 +40,7 @@ class UserTest(models.Model):
 
 class UsersAnswers(models.Model):
     user_test = models.ForeignKey(UserTest, on_delete=models.CASCADE, related_name=('users_test'), verbose_name=_('User test'))
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True, related_name=('test_question'), verbose_name=_('Test quesstion'))
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name=('users_answer'), verbose_name=_('Users answer'))
 
     objects = DefaultManager

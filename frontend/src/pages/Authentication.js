@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -92,7 +93,7 @@ const Authentication = () => {
                         </TabPanel>
                 </Box>
             </div>
-            <img src={ owlImage } className={ s.owl }></img>
+            <img src={ owlImage } className={ s.owl } alt='owl'></img>
             <p className={ s.owlText }>Войдите в систему <br />или зарегистрируйтесь, <br />если у Вас ещё нет аккаунта</p>
         </>
     );

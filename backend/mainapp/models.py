@@ -1,4 +1,8 @@
+import stripe
+from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from authapp.models import UserAccount
 from django.utils.translation import gettext_lazy as _
 
@@ -39,7 +43,7 @@ class MaterialsForLesson(models.Model):
 
 class Themes(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name of theme'))
-    materials = models.ManyToManyField(MaterialsForLesson, related_name='materials_for_lesson', verbose_name=_('Materials'))
+    materials = models.ManyToManyField(MaterialsForLesson, null=True, blank=True, related_name='materials_for_lesson', verbose_name=_('Materials'))
 
     objects = DefaultManager
 
@@ -47,7 +51,14 @@ class Themes(models.Model):
 class Lesson(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Lesson name'))
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_of_course', verbose_name=_('Lesson of Course'))
-    themes = models.ManyToManyField(MaterialsForLesson, related_name='themes_of_lesson', verbose_name=_('Themes of Lesson'))
+    themes = models.ManyToManyField(Themes, related_name='themes_of_lesson', verbose_name=_('Themes of Lesson'))
 
     objects = DefaultManager
 
+
+class TrialLesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='trial_lesson_course', verbose_name=_('Trial lesson of Course'))
+    email = models.EmailField(max_length=255, verbose_name=_('Email'))
+    name = models.CharField(max_length=255, verbose_name=_('First name'))
+
+    objects = DefaultManager

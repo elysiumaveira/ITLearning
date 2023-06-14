@@ -16,8 +16,11 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     re_path(r'^auth', include('djoser.urls.authtoken')),
 
+    path('accounts/', include(('authapp.urls', 'authapp'), namespace='accounts')),
+    path('roles/', include(('roles.urls', 'roles'), namespace='roles')),
     path('mainapp/', include(('mainapp.urls', 'mainapp'), namespace='mainapp')),
     path('tests/', include(('testsapp.urls', 'testsapp'), namespace='testsapp')),
+    path('payment/', include(('payments.urls', 'payments'), namespace='payments')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

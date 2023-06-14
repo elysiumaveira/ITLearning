@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
+import axios from 'axios';
+
+import Loading from '../components/Loading';
 
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
@@ -21,6 +21,17 @@ import { logout } from '../store/actions/auth';
 
 const AccountMenu = ({ logout }) => {
     const { user } = useSelector((store) => store.auth);
+    const [userRoles, setUserRoles] = useState(null);
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/roles/get-user-role/${user?.id}/`)
+        .then((res) => {
+            setUserRoles(res.data)
+        })
+        .catch((err) => {
+            return
+        })
+    }, [user]);
 
     const navigate = useNavigate();
 
@@ -33,12 +44,20 @@ const AccountMenu = ({ logout }) => {
         setAnchorEl(null);
     };
 
-    const navigateToProfile = () => {
-        navigate('/profile')
+    const navigateToAdminPanel = () => {
+        navigate('/admin-panel')
     }
 
     const navigateToSettings = () => {
         navigate('/profile/settings')
+    }
+
+    const navigateToMyEducation = () => {
+        navigate(`${user.id}/education`)
+    }
+
+    if (!user) {
+        return <Loading />
     }
 
     return (
@@ -92,8 +111,17 @@ const AccountMenu = ({ logout }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={ navigateToProfile }>
-                    { user?.avatar ? ImageAvatar(`${ user?.avatar }`) : LetterAvatar(`${ user?.first_name }`) } Профиль
+                { userRoles?.map((userRole) => {
+                    return (
+                        userRole.system_name === 'admin' ? 
+                        <MenuItem onClick={ navigateToAdminPanel }>
+                            Админ-панель
+                        </MenuItem> : null
+                    )
+                }) }
+                
+                <MenuItem onClick={ navigateToMyEducation }>
+                    Моё обучение
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={ navigateToSettings }>

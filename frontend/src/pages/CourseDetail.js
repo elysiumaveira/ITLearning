@@ -1,11 +1,22 @@
 import React from 'react';
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 
 import classNames from 'classnames'
 
 import s from '../css/CourseDetail.module.css'
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
+import TextField from '@mui/material/TextField';
+
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 
 import line1 from '../images/CourseDetailPage/line1.svg'
 import line2 from '../images/CourseDetailPage/line2.svg'
@@ -20,26 +31,197 @@ import principlesImage2 from '../images/CourseDetailPage/principlesImage2.svg'
 import principlesImage3 from '../images/CourseDetailPage/principlesImage3.svg'
 import principlesImage4 from '../images/CourseDetailPage/principlesImage4.svg'
 import owlWithShapes from '../images/CourseDetailPage/owlWithShapes.svg'
-import SimpleAccordion from '../components/SimpleAccordion';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: '20px',
+    boxShadow: 24,
+    p: 4,
+};
 
 const CourseDetail = () => {
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
     const [ course, setCourse ] = useState(null);
+    
+    const [email, setEmail] = useState('');
+    const [first_name, setFirstName] = useState('');
+
+    const [open, setOpen] = React.useState(false);
+
+    const BuyCourseButton = styled(Button)(() => ({
+        fontFamily: "Montserrat",
+        fontSize: "14px",
+        fontWeight: 700,
+        color: "white",
+        backgroundColor: "#F7941D;",
+            '&:hover': {
+                backgroundColor: "#FFAE4D",
+        },
+        height: "50px",
+        padding: "12px",
+        marginLeft: "46%",
+    }));
+
+    const ColorSubmitButton = styled(Button)(() => ({
+        fontFamily: "Montserrat",
+        fontSize: "14px",
+        fontWeight: 700,
+        color: "white",
+        backgroundColor: "#F7941D;",
+            '&:hover': {
+                backgroundColor: "#FFAE4D",
+        },
+        width: "",
+        height: "50px",
+        padding: "12px",
+        marginLeft: "33%",
+        marginTop: "5%"
+    }));
+
+    const ColorButton = styled(Button)(() => ({
+        fontFamily: "Montserrat",
+        fontSize: "14px",
+        fontWeight: 700,
+        color: "white",
+        backgroundColor: "#F7941D;",
+        '&:hover': {
+            backgroundColor: "#FFAE4D",
+        },
+        width: "286px",
+        height: "50px",
+        padding: "12px",
+    }));
 
     useEffect(() => {
         window.scrollTo(0, 0);
         axios.get(`${process.env.REACT_APP_API_URL}/mainapp/course/${ id }/`)
         .then(result => {
-            console.log(result)
             const course = result.data;
             setCourse(result.data);
         })
     }, [])
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleSubmit = () => {
+        const submit = {
+            'course': id,
+            'email': email,
+            'name': first_name
+        }
+
+        if (submit.email === '' || submit.name === '') {
+            const message = 'Вы должны заполнить поля'
+            enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
+            
+            return
+        }
+
+        const message = `${ submit.name }, мы отправим ссылку на конференцию на указанный Вами email (${submit.email})`
+
+        enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }
+
+        const body = JSON.stringify(submit);
+
+        axios.post(`${process.env.REACT_APP_API_URL}/mainapp/trial_lessons/`, body, config);
+
+        setEmail('');
+        setFirstName('');
+
+        setOpen(false);
+    }
+
+    const handleBuy = () => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        }
+
+        axios.post(`${process.env.REACT_APP_API_URL}/payment/create_checkout_session/${course?.id}/`, headers)
+        .then((res) => {
+            window.location.replace(res.data.redirect_url)
+        })
+    }
+
+    const onFirstNameChange = (e) => {
+        setFirstName(e.target.value)
+    }
+
+    const onEmailChange = (e) => {
+        setEmail(e.target.value)
+    }
+
     return (
         <>
+            <SnackbarProvider autoHideDuration={5000}>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Записаться на пробное занятие
+                        </Typography>
+                        <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root' : {
+                                marginLeft: 5,
+                                marginTop: 3,
+                                marginBottom: 1,
+                                width: '300px'
+                            }
+                        }}
+                        >
+                            <TextField
+                                id="outlined-required"
+                                label="Email"
+                                type='email'
+                                onChange={ onEmailChange }
+                            />
+                        </Box>
+                        <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root' : {
+                                marginLeft: 5,
+                                marginTop: 1,
+                                marginBottom: 1,
+                                width: '300px'
+                            }
+                        }}
+                        >
+                            <TextField
+                                id="outlined-required"
+                                label="Имя"
+                                type='text'
+                                onChange={ onFirstNameChange }
+                            />
+                        </Box>
+                        <ColorSubmitButton variant="contained" onClick={ handleSubmit }> Записаться </ColorSubmitButton>
+                    </Box>
+                </Modal>
+        </div>
+
         <div className={ s.banner }>
             <div className={ s.bannerCourseInfo }>
                 <p className={ s.bannerCourseName }>{ course?.name }</p>
@@ -48,14 +230,14 @@ const CourseDetail = () => {
                 </div>
                 <div className={ s.bannerCourseDescription }>
                     <div>
-                        <p className={ classNames(s.gradientTopBorder, s.bannerPeriod) }>Срок обучения: <br/> { course?.period } лет</p>
+                        <p className={ classNames(s.gradientTopBorder, s.bannerPeriod) }>Срок обучения: <br/> { course?.period } месяцев</p>
                     </div>
                     <div>
-                        <p className={ classNames(s.gradientTopBorder, s.bannerSchedule) }>Режим занятий: <br/> 2 раза в неделю по 2 академических часа</p>
+                        <p className={ classNames(s.gradientTopBorder, s.bannerSchedule) }>Режим занятий: <br/> 3 раза в неделю по 2 академических часа</p>
                     </div>
                 </div>
                 <div>
-                    <p className={ classNames(s.gradientTopBorder, s.bannerCoursePrice) }>От { course?.price } ₽ в месяц</p>
+                    <p className={ classNames(s.gradientTopBorder, s.bannerCoursePrice) }>От { course?.price } BYN в месяц</p>
                 </div>
                 <div>
                     <p className={ s.bannerLesson }>1 занятие бесплатно</p>
@@ -64,11 +246,11 @@ const CourseDetail = () => {
                     <p className={ s.bannerLessonDescription }>Прежде чем начать обучение, советуем записаться на пробное занятие</p>
                 </div>
                 <div className={s.bannerButtonBox}>
-                    <NavLink to="" className={ classNames(s.button, s.bannerButton) }>Записаться на пробное занятие</NavLink>
+                    <ColorButton variant="contained" onClick={ handleOpen }>Записаться на пробное занятие</ColorButton>
                 </div>
             </div>
             <div>
-                <img className={ s.bannerImage } src={ `http://localhost:8000/${ course?.image }` }/>
+                <img className={ s.bannerImage } src={ `${process.env.REACT_APP_API_URL}/${ course?.image }` }/>
                 <img src={ cross } className={ s.bannerCross } alt='cross'></img>
                 <img src={ rectangle } className={ s.bannerRectangleSmall } alt='rectangle'></img>
                 <img src={ circle } className={ s.bannerCircle } alt='circle'></img>
@@ -98,18 +280,18 @@ const CourseDetail = () => {
             <div className={ s.cardList }>
                 <div className={ classNames(s.card, s.junior) }>
                     <p className={ s.cardName }>Junior</p>
-                    <p className={ s.cardText }> Junior разработчик – это новичок с опытом от 6-12 месяцев, который знает базовые конструкции. Он может самостоятельно сделать простую программу, дописать или протестировать код, внести небольшие правки. </p>
-                    <p className={ s.cardPrice }>от  29 000 ₽ в месяц</p>
+                    <p className={ s.cardText }>Junior разработчик – это новичок с опытом от 6-12 месяцев, который знает базовые конструкции. Он может самостоятельно сделать простую программу, дописать или протестировать код, внести небольшие правки. </p>
+                    <p className={ s.cardPrice }>от  1200 BYN в месяц</p>
                 </div>
                 <div className={ classNames(s.card, s.middle) }>
                     <p className={ s.cardName }>Middle</p>
                     <p className={ s.cardText }>Middle-разработчик — это уже полноценный разработчик. У него есть определенный опыт, он может самостоятельно решать большинство проблем и не нуждается в наставничестве. Важные качества Middle-разработчика: Понимание функций и структуры продукта</p>
-                    <p className={ s.cardPrice} >от 50 000 ₽ в месяц</p>
+                    <p className={ s.cardPrice} >от 2500 BYN в месяц</p>
                 </div>
                 <div className={ classNames(s.card, s.senior) }>
                     <p className={ s.cardName }>Senior</p>
                     <p className={ s.cardText }>Senior разработчик глубоко понимает архитектуру, устройство библиотек, фреймворков и инструментов разработки и может сам разработать любой сервис или приложение с нуля. Он знает технические риски и может заранее их прогнозировать и снижать.</p>
-                    <p className={ s.cardPrice }>от 80 000 ₽ в месяц</p>
+                    <p className={ s.cardPrice }>от 4200 BYN в месяц</p>
                 </div>
             </div>
         </div>
@@ -130,7 +312,14 @@ const CourseDetail = () => {
                     <p className={ s.itemSubText }>и получить актуальную высокооплачиваемую специальность в IT</p>
                 </div>
             </div>
-            <NavLink to="" className={ classNames(s.button, s.listButton) }>Записаться на курс</NavLink>
+
+            <BuyCourseButton onClick={ handleBuy }> Купить курс </BuyCourseButton>
+
+            {/* <form action={`${process.env.REACT_APP_API_URL}/payment/create_checkout_session/${course?.id}/`} method="POST">
+                <button type="submit" className={ s.buyButton }>
+                    КУПИТЬ КУРС
+                </button>
+            </form> */}
         </div>
 
         <div className={ s.principlesList }>
@@ -173,10 +362,7 @@ const CourseDetail = () => {
             </div>
         </div>
 
-        <div className={s.courseContent}>
-            <p className={s.title}>Содержание курса</p>
-            <SimpleAccordion />
-        </div>
+        </SnackbarProvider>
         </>
     );
 };

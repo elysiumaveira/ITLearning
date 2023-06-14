@@ -91,6 +91,7 @@ class UsersAnswersSerializer(ModelSerializer):
         fields = [
             'id',
             'user_test',
+            'question',
             'answer'
         ]
 
@@ -99,6 +100,7 @@ class UsersAnswersSerializer(ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.user_test = validated_data.get('user_test', instance.user_test)
+        instance.question = validated_data.get('question', instance.question)
         instance.answer = validated_data.get('answer', instance.answer)
 
         instance.save()

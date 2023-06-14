@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -21,6 +22,7 @@ const style = {
 
 export default function AvatarUploadModal({ handleFileChange }) {
     const [open, setOpen] = useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 

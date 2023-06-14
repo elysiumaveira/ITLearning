@@ -8,7 +8,6 @@ import AccountMenu from './AccountMenu';
 
 import logo from '../images/logo.svg'
 import allCourses from '../images/allCourses.svg'
-import selectCity from '../images/select.svg'
 import loginIcon from '../images/loginIcon.svg'
 
 import s from '../css/Navbar.module.css'
@@ -51,26 +50,21 @@ const Navbar = ( { logout, isAuthenticated }) => {
                     <NavLink to="/events" style={style}>
                         Мероприятия
                     </NavLink>
-                    <NavLink to="/knowlege" style={style}>
-                        Базы знаний
+                    <NavLink to="/tests" style={style}>
+                        Тесты
                     </NavLink>
                     <NavLink to="/career" style={style}>
                         Карьера
                     </NavLink>
                     <div className={ s.wrapper }>
-                        <img src={selectCity} alt='select' className={ s.icon }/>
-                        <select name="selectCity">
-                            <option value="value1">Нижний Новгород</option>
-                        </select>
                     </div>
                     <p>
-                        8 800 950-33-98
+                        +375(29)238-71-66
                     </p>
                     
                     { isAuthenticated ? authLinks() : guestLinks() }
                 </nav>
             </div>
-
         </>
     );
 };

@@ -7,9 +7,8 @@ const FooterCourses = ({courseType}) => {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/mainapp/course', { params: { course_type: courseType } })
+        axios.get(`${process.env.REACT_APP_API_URL}/mainapp/course`, { params: { course_type: courseType } })
         .then(result => {
-            console.log(result)
             const course = result.data;
             setCourses(result.data);
         })

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from testsapp.views import TestView, QuestionView, AnswerView, UserTestView, UsersAnswersView
+from testsapp.views import TestView, QuestionView, AnswerView, UserTestView, UsersAnswersView, TestQuestionView, \
+    SaveUserTestView, CreateTestView
 
 urlpatterns = [
     path('tests/', TestView.as_view()),
@@ -17,4 +18,9 @@ urlpatterns = [
 
     path('users_answers/', UsersAnswersView.as_view()),
     path('user_answer/<int:id>/', UsersAnswersView.as_view()),
+
+    path('test_question/', TestQuestionView.as_view()),
+
+    path('save_user_test/', SaveUserTestView.as_view()),
+    path('create-test/', CreateTestView.as_view()),
 ]

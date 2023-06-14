@@ -16,4 +16,11 @@ class UserCreateSerializer(UserCreateSerializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = UserAccount
-        fields = '__all__'
+        fields = [
+            'id',
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'avatar'
+        ]

@@ -6,7 +6,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import CourseItem from './Course'
+import AgeCourseFiltering from './AgeCourseFiltering'
 
 import childrenIcon from '../images/HomePage/children.svg';
 import teenagersIcon from '../images/HomePage/teenagers.svg';
@@ -53,7 +53,7 @@ function BasicTabs() {
 
     return (
         <Box sx={{ width: 880, height: 350 }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider'}} className="customTabs">
+            <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs 
                     value={value} 
                     onChange={handleChange} 
@@ -68,13 +68,13 @@ function BasicTabs() {
                 </Tabs>
             </Box>
                 <TabPanel value={value} index={0}>
-                    <CourseItem courseType={"Children"}/>
+                    <AgeCourseFiltering courseType={"Children"}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <CourseItem courseType={"Teenagers"}/>
+                    <AgeCourseFiltering courseType={"Teenagers"}/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <CourseItem courseType={"Adults"}/>
+                    <AgeCourseFiltering courseType={"Adults"}/>
                 </TabPanel>
         </Box>
     );

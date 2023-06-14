@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from mainapp.models import Group, Course, MaterialsForLesson, Themes, Lesson
+from mainapp.models import Group, Course, MaterialsForLesson, Themes, Lesson, TrialLesson
 
 
 class GroupSerializer(ModelSerializer):
@@ -86,6 +86,13 @@ class ThemesSerializer(ModelSerializer):
 
         return theme
 
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+
+        materials_data = validated_data.get('materials', None)
+        if materials_data:
+            instance.materials.get(materials_data)
+
 
 class MaterialsSerializer(ModelSerializer):
     class Meta:
@@ -98,6 +105,28 @@ class MaterialsSerializer(ModelSerializer):
     def update(self, instance, validated_data):
         instance.file = validated_data.get('file', instance.file)
         instance.video = validated_data.get('video', instance.video)
+
+        instance.save()
+        return instance
+
+
+class TrialLessonSerializer(ModelSerializer):
+    class Meta:
+        model = TrialLesson
+        fields = [
+            'id',
+            'course',
+            'name',
+            'email'
+        ]
+
+    def create(self, validated_data):
+        return TrialLesson.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.course = validated_data.get('course', instance.course)
+        instance.email = validated_data.get('email', instance.email)
+        instance.name = validated_data.get('name', instance.name)
 
         instance.save()
         return instance

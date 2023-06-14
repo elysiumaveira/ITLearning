@@ -1,0 +1,20 @@
+.container {
+    margin-left: 720px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    max-height: 200px;
+}
+
+.selector {
+    margin-left: 50px;
+    font-size: 18px;
+}
+
+.button {
+    margin-left: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

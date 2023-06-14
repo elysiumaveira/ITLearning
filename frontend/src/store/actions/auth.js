@@ -17,10 +17,14 @@ import {
     PASSWORD_RESET_CONFRIM_FAIL,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_FAIL,
+    AUTHENTICATE,
     LOGOUT,
 } from './types';
 
 export const checkAuthenticated = () => async dispatch => {
+    dispatch({
+        type: AUTHENTICATE
+    });
     if (localStorage.getItem('access')) {
         const config = {
             headers: {

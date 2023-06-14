@@ -21,12 +21,12 @@ const Footer = () => {
                     </div>
 
                     <div className={ s.infoBlockNumber }>
-                        <p>8 800 950-33-98</p>
+                        <p>+375(29)238-71-66</p>
                     </div>
 
                     <div>
-                        <p className={ s.infoBlockText }>г. Москва, ул. Ленина, д. 50</p>
-                        <p className={ s.infoBlockText }>info@hodfutureacademy.ru</p>
+                        <p className={ s.infoBlockText }>г. Гродно, ул. Курчатова, д. 4</p>
+                        <p className={ s.infoBlockText }>xodacademy@gmail.com</p>
                     </div>
 
                     <div className={ s.social }>

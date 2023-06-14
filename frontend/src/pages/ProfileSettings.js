@@ -1,6 +1,8 @@
 import React, { useEffect, useState }  from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
+import Loading from '../components/Loading';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -66,8 +68,7 @@ function LetterAvatar(name) {
 }
 
 const ProfileSettings = () => {
-    const { user } = useSelector((store) => store.auth);
-    const { isAuthenticated } = useSelector((store) => store.auth);
+    const { user, isAuthenticated, loading } = useSelector((store) => store.auth);
 
     const initialState = {
         access: localStorage.getItem('access'),
@@ -76,8 +77,13 @@ const ProfileSettings = () => {
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
-    const [firstName, setFirstName] = useState(user?.first_name);
-    const [lastName, setlastName] = useState(user?.last_name);
+    const [firstName, setFirstName] = useState(user?.first_name || '');
+    const [lastName, setlastName] = useState(user?.last_name || '');
+
+    useEffect(() => {
+        setFirstName(user?.first_name || '')
+        setlastName(user?.last_name || '')
+    }, [user])
 
     const onFirstNameChange = (e) => {
         setFirstName(e.target.value);
@@ -94,9 +100,9 @@ const ProfileSettings = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // if(!isAuthenticated) {
-        //     navigate('/home');
-        // }
+        if(!isAuthenticated) {
+            navigate('/home');
+        }
     })
 
     const handleFileChange = (e) => {
@@ -127,6 +133,12 @@ const ProfileSettings = () => {
         profile_update(formData)(dispatch);
     }
 
+    if (loading) {
+        return (
+            <Loading />
+        )
+    }
+
     return (
         <>
             <div className={ s.container }>
@@ -148,7 +160,7 @@ const ProfileSettings = () => {
                         <TextField
                             id="outlined-read-only-input"
                             label="Логин"
-                            defaultValue={ user?.username }
+                            value={ user?.username }
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -158,7 +170,7 @@ const ProfileSettings = () => {
                         <TextField
                             id="outlined-read-only-input"
                             label="Email"
-                            defaultValue={ user?.email }
+                            value={ user?.email }
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -168,13 +180,13 @@ const ProfileSettings = () => {
                         <TextField
                             id="outlined-required"
                             label="Имя"
-                            defaultValue={ user?.first_name }
+                            value={ user?.first_name }
                             onChange={ onFirstNameChange }
                         />
                         <TextField
                             id="outlined-required"
                             label="Фамилия"
-                            defaultValue={ user?.last_name }
+                            value={ user?.last_name }
                             onChange={ onLastNameChange }
                         />
                     </div>

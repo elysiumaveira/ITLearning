@@ -1,0 +1,16 @@
+.pageTitle {
+    font-size: 36px;
+    font-weight: 700;
+    margin-left: 430px;
+    margin-top: 36px;
+    margin-bottom: 55px;
+}
+
+.courseList {
+    width: 930px;
+    margin-left: 440px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
