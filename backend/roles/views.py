@@ -121,22 +121,43 @@ class GetUserAndRoleView(APIView):
         users = UserAccount.objects.all()
         users_serializer = UserSerializer(instance=users, many=True)
 
-        for d in range(len(users_serializer.data)):
+        try:
+            for d in range(len(users_serializer.data)):
+                if UserRole.objects.filter(user=users_serializer.data[d]['id']).exists():
+                    user_role = UserRole.objects.all().filter(user=users_serializer.data[d]['id'])
+                    user_role_serializer = UserRoleSerializer(instance=user_role, many=True)
 
-            user_role = UserRole.objects.all().filter(user=users_serializer.data[d]['id'])
-            user_role_serializer = UserRoleSerializer(instance=user_role, many=True)
+                    for i in range(len(user_role_serializer.data)):
+                        role = AccountRoles.objects.filter(id=user_role_serializer.data[i]['role'])
+                        role_serializer = AccountRolesSerializer(instance=role, many=True)
+                        result.append({
+                            'user_id': users_serializer.data[d]['id'],
+                            'user': f'{users_serializer.data[d]["first_name"]} {users_serializer.data[d]["last_name"]}',
+                            'role': f'{role_serializer.data[i]["name"]}',
+                            'user_role_id': user_role_serializer.data[i]['id']
+                        })
+                else:
+                    user_role_serializer = UserRoleSerializer(data={
+                        'user': users_serializer.data[d]['id'],
+                        'role': 4
+                    })
 
-            for i in range(len(user_role_serializer.data)):
-                role = AccountRoles.objects.filter(id=user_role_serializer.data[i]['role'])
-                role_serializer = AccountRolesSerializer(instance=role, many=True)
-                result.append({
-                    'user_id': users_serializer.data[d]['id'],
-                    'user': f'{users_serializer.data[d]["first_name"]} {users_serializer.data[d]["last_name"]}',
-                    'role': f'{role_serializer.data[i]["name"]}',
-                    'user_role_id': user_role_serializer.data[i]['id']
-                })
+                    if user_role_serializer.is_valid(raise_exception=True):
+                        saved_user_role = user_role_serializer.save()
 
-        print('result', result)
+                    print(saved_user_role.data)
+
+                    for i in range(len(saved_user_role.data)):
+                        role = AccountRoles.objects.filter(id=saved_user_role.data[i]['role'])
+                        role_serializer = AccountRolesSerializer(instance=role, many=True)
+                        result.append({
+                            'user_id': users_serializer.data[d]['id'],
+                            'user': f'{users_serializer.data[d]["first_name"]} {users_serializer.data[d]["last_name"]}',
+                            'role': f'{role_serializer.data[i]["name"]}',
+                            'user_role_id': saved_user_role.data[i]['id']
+                        })
+        except Exception as e:
+            return Response(e)
 
         return Response(result)
 

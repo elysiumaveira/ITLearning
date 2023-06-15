@@ -52,7 +52,8 @@ export default function(state = initialState, action) {
         case SIGNUP_SUCCESS:
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
+                signUp: true
             }
         case USER_LOADED_SUCCES:
             return {
@@ -72,6 +73,14 @@ export default function(state = initialState, action) {
                 user: null
             }    
         case SIGNUP_FAIL:
+            return{
+                ...state,
+                access: null,
+                refresh: null,
+                isAuthenticated: false,
+                user: null,
+                signUp: false
+            }
         case LOGIN_FAIL:
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');

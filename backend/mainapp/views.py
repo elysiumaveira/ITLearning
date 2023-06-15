@@ -312,3 +312,41 @@ class GetTeachersView(APIView):
             account_roles_serializer.data[d]['users'] = users
 
         return Response(account_roles_serializer.data)
+
+
+class CreateCourseView(APIView):
+    def post(self, request):
+        def _get_id(od_items):
+            for item in od_items:
+                if item[0] == 'id':
+                    return item[1]
+
+            return
+
+        themes_id = []
+
+        course = Course.objects.filter(name=request.data['course'])
+        course_serializer = CourseSerializer(instance=course, many=True)
+
+        for d in range(len(course_serializer.data)):
+            for i in range(len(request.data['themes_name'])):
+                theme_serializer = ThemesSerializer(data={
+                    'name': f'{request.data["themes_name"][i]}',
+                    'materials': []
+                })
+
+                if theme_serializer.is_valid(raise_exception=True):
+                    saved_theme = theme_serializer.save()
+
+                    themes_id.append(saved_theme.id)
+
+            lesson_serializer = LessonSerializer(data={
+                'name': request.data['lesson'],
+                'course': _get_id(course_serializer.data[d].items()),
+                'themes': themes_id
+            })
+
+            if lesson_serializer.is_valid(raise_exception=True):
+                lesson_serializer.save()
+
+        return Response('ok')

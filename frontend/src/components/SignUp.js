@@ -1,6 +1,6 @@
 import React, { useEffect, useState }  from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../store/actions/auth';
 
 import Box from '@mui/material/Box';
@@ -8,9 +8,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
+
 import s from '../css/SignUp.module.css';
 
 const SignUp = () => {
+    const { signUp } = useSelector((store) => store.auth);
+
     const [accountCreated, setAccountCreated] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -49,12 +53,21 @@ const SignUp = () => {
     const onSubmit = () => {
         if (password === re_password) {
             signup(username, email, first_name, last_name, password, re_password)(dispatch);
+
             setAccountCreated(true);
         }
     }
 
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        if (signUp) {
+            const message = 'Мы отправили ссылку для подтверждения почты на указанный Вами email'
+            enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
+        } else {
+            const message = 'Упс, произошла ошибка'
+            enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
+        }
 
         if(accountCreated) {
             navigate('/login');
@@ -76,6 +89,7 @@ const SignUp = () => {
 
     return (
         <>
+        <SnackbarProvider autoHideDuration={5000}>
         <div className={ s.container }>
             <Box
                 component="form"
@@ -144,6 +158,7 @@ const SignUp = () => {
                 <ColorButton variant="contained" onClick={ onSubmit }>Зарегистрироваться</ColorButton>
             </div>
         </div>
+        </SnackbarProvider>
         </>
     );
 };

@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 from mainapp.views import CoursesListView, CourseDetailView, GroupView, MaterialsView, LessonView, ThemesView, \
-    TrialLessonView, GetCourseAndLessonView, GetThemesForLessonView, GetTeachersView
+    TrialLessonView, GetCourseAndLessonView, GetThemesForLessonView, GetTeachersView, CreateCourseView
 
 router = DefaultRouter()
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('courses/', CoursesListView.as_view()),
     path('course/', CourseDetailView.as_view()),
     path('course/<int:id>/', CourseDetailView.as_view()),
+    path('create-course/', CreateCourseView.as_view()),
 
     path('group/', GroupView.as_view()),
 

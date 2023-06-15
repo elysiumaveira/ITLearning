@@ -25,7 +25,7 @@ const Activate = () => {
 
     useEffect(() =>{
         if(verified) {
-            navigate('/home');
+            navigate('/login');
         }
     })
 

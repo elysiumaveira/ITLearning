@@ -25,8 +25,8 @@ function stringAvatar(name) {
         width: 26,
         height: 26
         },
-        // children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-        children: `${name.split(' ')[0][0]}`,
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        // children: `${name.split(' ')[0][0]}`,
     };
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
+import Loading from '../components/Loading';
 import AvatarUploadModal from '../components/AvatarUploadModal';
 
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
@@ -10,7 +11,6 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-
 
 import s from '../css/CreateCourse.module.css';
 

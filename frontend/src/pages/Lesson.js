@@ -80,10 +80,10 @@ const Lesson = () => {
                     }) }
                 </div>
                 <div className={ s.main }>
-                    { lessons.map((lesson) => {
+                    { lessons.length > 0 ? lessons.map((lesson) => {
                         return (
                             <div>
-                                { lesson.materials.map((material) => <>
+                                { lesson.materials ? lesson.materials.map((material) => <>
                                     {material.video ? (
                                         <>{material.video}</>
                                     ) : (
@@ -93,23 +93,48 @@ const Lesson = () => {
                                             </p>
                                         </div>
                                     )}
-                                </>) }
+                                </>) : <div className={ s.warning }>
+                                            <p>
+                                                Этот урок еще не прошел, ссылка на онлайн-урок будет отправлена Вам на email ({ user.email })
+                                            </p>
+                                        </div> }
                             </div>
                         )
-                    }) }
+                    }) : null}
                 </div>
                 <div className={ s.materials }>
-                    { lessons.map((lesson) => {
-                        return (
+                    {
+                        lessons.map((lesson) => {
                             <div>
-                                { lesson.materials.map((material) => <>
-                                    <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
-                                        Открыть документацию
-                                    </ColorButton>
-                                </>) }
+                                { lesson.materials ?
+                                        lesson.materials.map((material) => 
+                                            <>
+                                                <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
+                                                    Открыть документацию
+                                                </ColorButton>
+                                            </>
+                                        )
+                                : null }
                             </div>
-                        )
-                    }) }
+                        })
+                    }
+                    {/* { lessons.map((lesson) => {
+                        <div>
+                            { lesson.materials ? return (
+                                <>
+                                    {
+                                        lesson.materials.map((material) => 
+                                        <>
+                                            <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
+                                                Открыть документацию
+                                            </ColorButton>
+                                        </>
+                                        ) 
+                                    }
+                                </>
+                            )} : null)                                
+                        </div>
+                    }) } */}
                 </div>
             </div>
         </>

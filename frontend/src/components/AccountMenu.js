@@ -57,7 +57,7 @@ const AccountMenu = ({ logout }) => {
     }
 
     if (!user) {
-        return <Loading />
+        <Loading />
     }
 
     return (
@@ -72,7 +72,7 @@ const AccountMenu = ({ logout }) => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        { user?.avatar ? ImageAvatar(`${ user?.avatar }`) : LetterAvatar(`${ user?.first_name }`) }
+                        { user?.avatar ? ImageAvatar(`${ user?.avatar }`) : LetterAvatar(`${ user?.first_name } ${user?.last_name}`) }
                     </IconButton>
                 </Tooltip>
             </Box>

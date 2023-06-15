@@ -131,6 +131,8 @@ const ProfileSettings = () => {
         formData.append('last_name', lastName);
 
         profile_update(formData)(dispatch);
+
+        window.location.reload(false);
     }
 
     if (loading) {

@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import axios from 'axios';
+
+import Loading from '../components/Loading';
 import CreateCourse from '../components/CreateCourse';
 import CreateTest from '../components/CreateTest';
 import UserModeration from '../components/UserModerations';
@@ -11,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import s from '../css/AdminPanel.module.css';
+import CreateLesson from '../components/CreateLesson';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props; 
@@ -46,11 +52,41 @@ function a11yProps(index) {
 }
 
 const AdminPanel = () => {
+    const { user } = useSelector((store) => store.auth);
+    const [userRoles, setUserRoles] = useState(null);
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/roles/get-user-role/${user?.id}/`)
+        .then((res) => {
+            res.map((userRole) => {
+                if(userRole.system_name != 'admin') {
+                    navigate('/home')
+                    return
+                }
+            })
+            setUserRoles(res.data)
+        })
+        .catch((err) => {
+            return
+        })
+    }, [user])
+
+    if(!user) {
+        setTimeout(2000)
+        if (!user) {
+            navigate('/home')
+            return
+        }
+        return <Loading />
+    }
 
     return (
         <>
@@ -76,13 +112,13 @@ const AdminPanel = () => {
                                 fontWeight: 700,
                                 color: "black"
                             }} />
-                            <Tab label="Создать тест" {...a11yProps(1)} style={{ 
+                            <Tab label="Создать урок" {...a11yProps(1)} style={{ 
                                 minWidth: "25%", 
                                 fontFamily: "Montserrat", 
                                 fontWeight: 700,
                                 color: "black"
                             }}/>
-                            <Tab label="Создать новость" {...a11yProps(1)} style={{ 
+                            <Tab label="Создать тест" {...a11yProps(1)} style={{ 
                                 minWidth: "25%", 
                                 fontFamily: "Montserrat", 
                                 fontWeight: 700,
@@ -100,10 +136,10 @@ const AdminPanel = () => {
                             <CreateCourse />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <CreateTest />
+                            <CreateLesson />
                         </TabPanel>
                         <TabPanel value={value} index={2}>
-                            <></>
+                            <CreateTest />
                         </TabPanel>
                         <TabPanel value={value} index={3}>
                             <UserModeration />
