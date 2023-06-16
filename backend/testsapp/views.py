@@ -272,33 +272,59 @@ class CreateTestView(APIView):
         if test_serializer.is_valid(raise_exception=True):
             saved_test = test_serializer.save()
 
-        for i in range(len(request.data['question'])):
-            print(request.data['question'][i])
-            print(request.data['correct_answer'][i])
-            print(request.data['uncorrect_answer'][i])
-            question_serializer = QuestionSerializer(data={
-                'test': saved_test.id,
-                'question': request.data['question'][i]
-            })
+            for i in range(len(request.data['question'])):
+                print(request.data['question'][i])
+                print(request.data['correct_answer'][i])
+                print(request.data['uncorrect_answer'][i])
+                question_serializer = QuestionSerializer(data={
+                    'test': saved_test.id,
+                    'question': request.data['question'][i]
+                })
 
-            if question_serializer.is_valid(raise_exception=True):
-                saved_question = question_serializer.save()
+                if question_serializer.is_valid(raise_exception=True):
+                    saved_question = question_serializer.save()
 
-            correct_answer_serializer = AnswerSerializer(data={
-                'question': saved_question.id,
-                'answer': request.data['correct_answer'][i],
-                'is_correct': True
-            })
+                    correct_answer_serializer = AnswerSerializer(data={
+                        'question': saved_question.id,
+                        'answer': request.data['correct_answer'][i],
+                        'is_correct': True
+                    })
 
-            if correct_answer_serializer.is_valid(raise_exception=True):
-                correct_answer_serializer.save()
+                    if correct_answer_serializer.is_valid(raise_exception=True):
+                        correct_answer_serializer.save()
 
-            uncorrect_answer_serializer = AnswerSerializer(data={
-                'question': saved_question.id,
-                'answer': request.data['correct_answer'][i],
-            })
+                        uncorrect_answer_serializer = AnswerSerializer(data={
+                            'question': saved_question.id,
+                            'answer': request.data['uncorrect_answer'][i],
+                        })
 
-            if uncorrect_answer_serializer.is_valid(raise_exception=True):
-                uncorrect_answer_serializer.save()
+                        if uncorrect_answer_serializer.is_valid(raise_exception=True):
+                            uncorrect_answer_serializer.save()
 
         return Response('created successfully')
+
+
+class GetUserTests(APIView):
+    def get(self, request, id):
+        def _get_id(od_items):
+            for item in od_items:
+                if item[0] == 'id':
+                    return item[1]
+
+            return None
+
+        result = []
+
+        if not id:
+            return Response('id is undefined')
+
+        user_tests = UserTest.objects.all().filter(user=id)
+        user_tests_serializer = UserTestSerializer(instance=user_tests, many=True)
+
+        for d in range(len(user_tests_serializer.data)):
+            tests = Test.objects.filter(id=_get_id(user_tests_serializer.data[d].items()))
+            tests_serializer = TestSerializer(instance=tests, many=True)
+
+            result.append(tests_serializer.data)
+
+        return Response(result)

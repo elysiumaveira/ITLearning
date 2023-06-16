@@ -96,8 +96,6 @@ const CreateCourse = () => {
         // formData.append('period', period)
         // formData.append('price', price)
 
-        // console.log('FORM DATA', formData)
-
         // const body = formData
 
         const body = {
@@ -111,14 +109,10 @@ const CreateCourse = () => {
             'price': parseInt(price),
         }
 
-        console.log(body)
-
         axios.post(`${process.env.REACT_APP_API_URL}/mainapp/courses/`, body, config)
         .then((result) => {
-            console.log(result)
         })
         .catch((err) => {
-            console.log(err)
         })
     }
 

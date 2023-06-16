@@ -78,31 +78,14 @@ const CreateTest = () => {
             
             axios.post(`${process.env.REACT_APP_API_URL}/tests/create-test/`, body, config)
             .then((result) => {
-                console.log(result)
             })
             .catch((err) => {
-                console.log(err)
                 return
             })
-
-            console.log('BODY', body)
         } catch (err) {
             return
         }
     }
-
-    const AddButton = styled(Button)(() => ({
-        fontFamily: "Montserrat",
-        fontSize: "20px",
-        color: "white",
-        backgroundColor: "green",
-        '&:hover': {
-            backgroundColor: "green",
-        },
-        marginTop: "15px",
-        height: "40px",
-        padding: "12px",
-    }))
 
     const DeleteButton = styled(Button)(() => ({
         fontFamily: "Montserrat",
@@ -190,7 +173,6 @@ const CreateTest = () => {
                                 value={ element.name }
                                 onChange={ event => handleFormChange(index, event) }
                             />
-                            {/* <AddButton onClick={ addFields }>+</AddButton> */}
                             { index ? <DeleteButton onClick={ () => removeFields(index) }>X</DeleteButton> : null }
                         </div>
                     )

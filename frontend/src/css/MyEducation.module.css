@@ -2,3 +2,24 @@
     margin-left: 25%;
     margin-top: 5%;
 }
+
+.box {
+    width: 430px;
+    height: 250px;
+    background-color: #C7EEFF;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.title {
+    margin-top: 15px;
+    display: flex;
+}
+
+.description {
+    margin-top: 15px;
+}
+
+.button {
+    margin-top: 100px;
+}

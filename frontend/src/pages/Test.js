@@ -107,7 +107,6 @@ const Test = () => {
 
         for (const answer in submit.answers) {
             if (submit.answers[answer]['answer'] === null) {
-                console.log(`Вы не ответили на вопрос ${+answer + 1}`)
                 return 
             }
         }

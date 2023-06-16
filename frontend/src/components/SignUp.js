@@ -51,30 +51,23 @@ const SignUp = () => {
     }
 
     const onSubmit = () => {
-        if (password === re_password) {
-            signup(username, email, first_name, last_name, password, re_password, enqueueSnackbar)(dispatch);
-
-            setAccountCreated(true);
+        if(email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+            if (password === re_password) {
+                signup(username, email, first_name, last_name, password, re_password, enqueueSnackbar)(dispatch);
+    
+                setAccountCreated(true);
+            } else {
+                enqueueSnackbar('Пароли не совпадают', { autoHideDuration: 5000, variant: 'error' })
+                return
+            }
+        } else {
+            enqueueSnackbar('Неверный формат электронной почты', { autoHideDuration: 5000, variant: 'error' })
+            return
         }
     }
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        // if(signUp !== null) {
-        //     if (signUp) {
-        //         const message = 'Мы отправили ссылку для подтверждения почты на указанный Вами email'
-        //         enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
-        //     } else if (signUp === false) {
-        //         const message = 'Упс, произошла ошибка'
-        //         enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
-        //     }
-        // }
-
-        console.log(
-            JSON.parse(localStorage.getItem('variable'))
-        )
-    
 
         if(accountCreated) {
             navigate('/login');

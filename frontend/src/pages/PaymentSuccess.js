@@ -23,10 +23,10 @@ const PaymentSuccess = () => {
             try {
                 axios.post(`${process.env.REACT_APP_API_URL}/payment/purchase/`, body, config)
                 .catch((err) => {
-                    console.log(err)
+                    return
                 })
             } catch (err) {
-                console.log(err)
+                return
             }
         }
     }, [userId, session_id])

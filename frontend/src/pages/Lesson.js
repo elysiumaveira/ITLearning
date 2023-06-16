@@ -26,7 +26,6 @@ const Lesson = () => {
         if (lesson_id && theme_id) {
             axios.get(`${process.env.REACT_APP_API_URL}/mainapp/get-themes-for-lesson/${lesson_id}/${theme_id}/`)
             .then(result => {
-                console.log('Result', result.data)
                 setLessons(result.data)
             })
             .catch((err) => {
@@ -105,17 +104,21 @@ const Lesson = () => {
                 <div className={ s.materials }>
                     {
                         lessons.map((lesson) => {
-                            <div>
-                                { lesson.materials ?
-                                        lesson.materials.map((material) => 
-                                            <>
-                                                <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
-                                                    Открыть документацию
-                                                </ColorButton>
-                                            </>
-                                        )
-                                : null }
-                            </div>
+                            return (
+                                <div>
+                                    { lesson.materials.len >= 0 ?
+                                            lesson.materials.map((material) => {
+                                                return (
+                                                    <>
+                                                        <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
+                                                            Открыть документацию
+                                                        </ColorButton>
+                                                    </>
+                                                )
+                                            })
+                                    : <p className={ s.warning }>Материалов к уроку пока нет</p> }
+                                </div>
+                            )
                         })
                     }
                     {/* { lessons.map((lesson) => {

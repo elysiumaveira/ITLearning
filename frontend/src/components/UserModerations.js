@@ -17,11 +17,10 @@ const UserModeration = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/roles/get-user-and-role/`)
         .then((result) => {
-            console.log(result.data)
             setUsers(result.data)
         })
         .catch((err) => {
-            console.log(err)
+            return
         })
         
     }, [])
@@ -38,8 +37,6 @@ const UserModeration = () => {
         setUser(e.target.options.selectedIndex + 1);
     }
 
-    console.log('USERS', users)
-
     const ColorButton = styled(Button)(() => ({
         fontFamily: "Montserrat",
         fontSize: "14px",
@@ -55,8 +52,6 @@ const UserModeration = () => {
     }));
 
     const onSubmit = () => {
-        console.log(role)
-        console.log(user)
         try {
             const config = {
                 headers: {
@@ -71,10 +66,8 @@ const UserModeration = () => {
 
             axios.post(`${process.env.REACT_APP_API_URL}/roles/create-user-role/`, body, config)
             .then((result) => {
-                console.log(result)
             })
             .catch((err) => {
-                console.log(err)
             })
         } catch (err) {
             return
