@@ -24,7 +24,8 @@ const initialState = {
     refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
     loading: false,
-    user: null
+    user: null,
+    signUp: null
 };
 
 export default function(state = initialState, action) {

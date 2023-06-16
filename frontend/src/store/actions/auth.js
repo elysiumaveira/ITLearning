@@ -113,7 +113,7 @@ export const login = (username, password) => async dispatch => {
     }
 };
 
-export const signup = (username, email, first_name, last_name, password, re_password) => async dispatch => {
+export const signup = (username, email, first_name, last_name, password, re_password, enqueueSnackbar) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -129,10 +129,15 @@ export const signup = (username, email, first_name, last_name, password, re_pass
             type: SIGNUP_SUCCESS,
             payload: res.data
         });
+        const message = 'Мы отправили ссылку для подтверждения почты на указанный Вами email'
+        enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
     } catch (err) {
         dispatch ({
             type: SIGNUP_FAIL
         });
+
+        const message = 'Упс, произошла ошибка'
+        enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
     }
 };
 

@@ -52,7 +52,7 @@ const SignUp = () => {
 
     const onSubmit = () => {
         if (password === re_password) {
-            signup(username, email, first_name, last_name, password, re_password)(dispatch);
+            signup(username, email, first_name, last_name, password, re_password, enqueueSnackbar)(dispatch);
 
             setAccountCreated(true);
         }
@@ -61,13 +61,20 @@ const SignUp = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        if (signUp) {
-            const message = 'Мы отправили ссылку для подтверждения почты на указанный Вами email'
-            enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
-        } else {
-            const message = 'Упс, произошла ошибка'
-            enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
-        }
+        // if(signUp !== null) {
+        //     if (signUp) {
+        //         const message = 'Мы отправили ссылку для подтверждения почты на указанный Вами email'
+        //         enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'success' })
+        //     } else if (signUp === false) {
+        //         const message = 'Упс, произошла ошибка'
+        //         enqueueSnackbar(message, { autoHideDuration: 5000, variant: 'error' })
+        //     }
+        // }
+
+        console.log(
+            JSON.parse(localStorage.getItem('variable'))
+        )
+    
 
         if(accountCreated) {
             navigate('/login');
