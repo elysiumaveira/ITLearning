@@ -79,7 +79,6 @@ const MyEducation = () => {
         if(user_id) {
             axios.get(`${process.env.REACT_APP_API_URL}/tests/get-user-tests/${ user_id }/`)
             .then((result) => {
-                console.log('RESULT', result.data)
                 setUserTests(result.data)
             })
             .catch((err) => {

@@ -106,7 +106,7 @@ const Lesson = () => {
                         lessons.map((lesson) => {
                             return (
                                 <div>
-                                    { lesson.materials.len >= 0 ?
+                                    { lesson.materials.length ?
                                             lesson.materials.map((material) => {
                                                 return (
                                                     <>
@@ -121,23 +121,6 @@ const Lesson = () => {
                             )
                         })
                     }
-                    {/* { lessons.map((lesson) => {
-                        <div>
-                            { lesson.materials ? return (
-                                <>
-                                    {
-                                        lesson.materials.map((material) => 
-                                        <>
-                                            <ColorButton onClick={ ()=> handleOpen(`${process.env.REACT_APP_API_URL}/${material.file}`) }>
-                                                Открыть документацию
-                                            </ColorButton>
-                                        </>
-                                        ) 
-                                    }
-                                </>
-                            )} : null)                                
-                        </div>
-                    }) } */}
                 </div>
             </div>
         </>
