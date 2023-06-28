@@ -79,35 +79,24 @@ const CreateCourse = () => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
             },
         };
 
         const formData = new FormData();
 
-        // if(image) {
-        //     formData.append('image', image);
-        // }
-        // formData.append('name', name)
-        // formData.append('goal', goal)
-        // formData.append('description', description)
-        // formData.append('teacher', [parseInt(teacher)])
-        // formData.append('course_type', courseType)
-        // formData.append('period', period)
-        // formData.append('price', price)
-
-        // const body = formData
-
-        const body = {
-            'name': name,
-            'goal': goal,
-            'description': description,
-            'teacher': [parseInt(teacher)],
-            'image': imageURL,
-            'course_type': courseType,
-            'period': parseInt(period),
-            'price': parseInt(price),
+        if(image) {
+            formData.append('image', image);
         }
+        formData.append('name', name)
+        formData.append('goal', goal)
+        formData.append('description', description)
+        formData.append('teacher', [parseInt(teacher)])
+        formData.append('course_type', courseType)
+        formData.append('period', period)
+        formData.append('price', price)
+
+        const body = formData
 
         axios.post(`${process.env.REACT_APP_API_URL}/mainapp/courses/`, body, config)
         .then((result) => {

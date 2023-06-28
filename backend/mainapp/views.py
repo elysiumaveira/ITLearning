@@ -172,7 +172,16 @@ class ThemesView(APIView):
         return Response({"themes": "Theme {} created successfully".format(theme_saved.id)})
 
     def put(self, request, id):
-        pass
+        saved_theme = get_object_or_404(Themes.objects.all(), pk=id)
+        data = request.data
+        serializer = ThemesSerializer(instance=saved_theme, data=data, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            theme_saved = serializer.save()
+
+        return Response({
+            "success": "Theme '{}' updated successfully".format(theme_saved.id)
+        })
 
 
 class LessonView(APIView):

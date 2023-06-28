@@ -9,6 +9,9 @@
     background-color: #C7EEFF;
     border-radius: 20px;
     padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .title {

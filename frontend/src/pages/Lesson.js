@@ -19,9 +19,11 @@ const Lesson = () => {
     const { lesson_id, theme_id } = useParams();
 
     const [lessons, setLessons] = useState(null);
+    const [materialID, setMaterialID] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        setLessons(null);
 
         if (lesson_id && theme_id) {
             axios.get(`${process.env.REACT_APP_API_URL}/mainapp/get-themes-for-lesson/${lesson_id}/${theme_id}/`)
@@ -79,12 +81,21 @@ const Lesson = () => {
                     }) }
                 </div>
                 <div className={ s.main }>
-                    { lessons.length > 0 ? lessons.map((lesson) => {
+                    { lessons.length ? lessons.map((lesson) => {
                         return (
                             <div>
                                 { lesson.materials ? lesson.materials.map((material) => <>
+                                { console.log('MATERIAL', material) }
                                     {material.video ? (
-                                        <>{material.video}</>
+                                        <>
+                                            <iframe src={material.video}
+                                                frameborder='0'
+                                                allow='autoplay; encrypted-media; fullscreen'
+                                                title='video'
+                                                width={900}
+                                                height={600}
+                                            />
+                                        </>
                                     ) : (
                                         <div className={ s.warning }>
                                             <p>

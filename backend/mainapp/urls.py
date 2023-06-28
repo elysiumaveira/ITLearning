@@ -25,7 +25,7 @@ urlpatterns = [
     path('get-themes-for-lesson/<int:lesson_id>/<int:theme_id>/', GetThemesForLessonView.as_view()),
 
     path('themes/', ThemesView.as_view()),
-    path('theme', ThemesView.as_view()),
+    path('theme/<int:id>/', ThemesView.as_view()),
 
     path('trial_lessons/', TrialLessonView.as_view()),
     path('trial_lesson/<int:id>/', TrialLessonView.as_view()),

@@ -36,7 +36,7 @@ class Group(models.Model):
 
 class MaterialsForLesson(models.Model):
     file = models.FileField(upload_to='materials for lessons/%Y/%m/%d', null=True, blank=True)
-    video = models.FileField(upload_to='video lessons/%Y/%m/%d', null=True, blank=True)
+    video = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('Video'))
 
     objects = DefaultManager
 

@@ -35,7 +35,7 @@ class CourseSerializer(ModelSerializer):
         teachers_data = validated_data.get('teacher', None)
 
         if teachers_data:
-            instance.teachers.set(teachers_data)
+            instance.teacher.set(teachers_data)
 
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
@@ -91,7 +91,10 @@ class ThemesSerializer(ModelSerializer):
 
         materials_data = validated_data.get('materials', None)
         if materials_data:
-            instance.materials.get(materials_data)
+            instance.materials.set(materials_data)
+
+        instance.save()
+        return instance
 
 
 class MaterialsSerializer(ModelSerializer):
